@@ -2,6 +2,7 @@ package com.at.udf;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 
@@ -25,22 +26,56 @@ public class Test {
     @org.junit.Test
     public void test1(){
 
+//
+//        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+//
+//        System.out.println(jsonObject);
+//
+//        System.out.println(jsonObject.get("id"));
+//
+//        JSONArray address = jsonObject.getJSONArray("address");
+//
+//        for (Object o : address) {
+//            if (o instanceof JSONObject) {
+//                JSONObject object = (JSONObject) o;
+//                System.out.println(object);
+//                System.out.println(object.get("city"));
+//            }
+//        }
 
-        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        System.out.println(StringUtils.isEmpty(""));     // true
+        System.out.println(StringUtils.isAnyEmpty("")); // true
+        System.out.println(StringUtils.isNoneEmpty("")); // false
+        System.out.println(StringUtils.isNotEmpty(""));    // false
 
-        System.out.println(jsonObject);
+        System.out.println("===================================================");
 
-        System.out.println(jsonObject.get("id"));
+        System.out.println(StringUtils.isEmpty(null));
+        System.out.println(StringUtils.isAnyEmpty(null));
+        System.out.println(StringUtils.isNoneEmpty(null));
+        System.out.println(StringUtils.isNotEmpty(null));
 
-        JSONArray address = jsonObject.getJSONArray("address");
+        System.out.println("===================================================");
 
-        for (Object o : address) {
-            if (o instanceof JSONObject) {
-                JSONObject object = (JSONObject) o;
-                System.out.println(object);
-                System.out.println(object.get("city"));
-            }
-        }
+        String s = new String();
+
+        System.out.println(StringUtils.isEmpty(s));
+        System.out.println(StringUtils.isAnyEmpty(s));
+        System.out.println(StringUtils.isNoneEmpty(s));
+        System.out.println(StringUtils.isNotEmpty(s));
+
+        System.out.println(s.isEmpty());
+        System.out.println("".isEmpty());
+        System.out.println(" ".isEmpty()); // false
+
+
+//        JSONObject sfdsfdsf = JSONObject.parseObject("sfdsfdsf");
+//
+//        System.out.println(sfdsfdsf);
+
+        boolean f = false;
+
+        assert f; // false java.lang.AssertionError
 
 
     }

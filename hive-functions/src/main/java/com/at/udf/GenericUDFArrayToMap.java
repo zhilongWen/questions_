@@ -64,7 +64,7 @@ public class GenericUDFArrayToMap extends GenericUDF {
 
     @Override
     public String getDisplayString(String[] strings) {
-        return null;
+        return "统计数组中每个字符出现的次数，以map形式返回";
     }
 
     private List<Long> getLongList(@Nonnull final DeferredObject arg, @Nonnull final ListObjectInspector listIO) throws HiveException {
@@ -103,7 +103,7 @@ public class GenericUDFArrayToMap extends GenericUDF {
                 .forEach(new Consumer<Map.Entry<Long, List<Long>>>() {
                     @Override
                     public void accept(Map.Entry<Long, List<Long>> entry) {
-                        System.out.println("key = " + entry.getKey() + " ,value = " + entry.getValue().size());
+//                        System.out.println("key = " + entry.getKey() + " ,value = " + entry.getValue().size());
                         ret.put(entry.getKey(), (long) entry.getValue().size());
                     }
                 });

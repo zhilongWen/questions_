@@ -10,6 +10,7 @@
     <modules>
         <module>rate-limiter</module>
         <module>hive-functions</module>
+        <module>disruptor-queue</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -25,6 +26,7 @@
         <hive-exec.version>3.1.2</hive-exec.version>
         <protobuf-java-format.version>1.4</protobuf-java-format.version>
         <fastjson2.version>2.0.12</fastjson2.version>
+        <disruptor.version>3.4.2</disruptor.version>
 
     </properties>
 
@@ -65,9 +67,16 @@
                 <version>${fastjson2.version}</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+
+
 
             <!-- junit -->
-
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

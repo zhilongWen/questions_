@@ -11,6 +11,7 @@
         <module>rate-limiter</module>
         <module>hive-functions</module>
         <module>disruptor-queue</module>
+        <module>cache</module>
     </modules>
     <packaging>pom</packaging>
 

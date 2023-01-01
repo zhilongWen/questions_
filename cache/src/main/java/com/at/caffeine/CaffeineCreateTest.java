@@ -87,6 +87,9 @@ public class CaffeineCreateTest {
         String v = cache.get("k");
         System.out.println("v = " + v); // v = e:k
 
+        String pp = cache.getIfPresent("pp");
+        System.out.println("pp : " + pp); // pp : null
+
         cache.put("k1", "v1");
         cache.put("k2", "v2");
         cache.put("k3", "v3");

@@ -12,6 +12,7 @@
         <module>hive-functions</module>
         <module>disruptor-queue</module>
         <module>cache</module>
+        <module>jmh</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,0 +1,29 @@
+syntax = "proto3";
+option java_multiple_files = false;
+option java_package = "com.at.pb";
+option java_outer_classname = "UserMessageInfoProto";
+option optimize_for = SPEED;
+
+message UserMessageInfo{
+
+  uint64 update_time = 1;
+
+  uint64 id_card = 2;
+
+  string name = 3;
+
+  uint32 sex = 4;
+
+  map<string,Address> user_addr = 5;
+
+}
+
+message Address{
+
+  string city = 1;
+  string addr = 2;
+
+}
+
+
+

@@ -13,6 +13,7 @@
         <module>disruptor-queue</module>
         <module>cache</module>
         <module>jmh</module>
+        <module>dynamic-code</module>
     </modules>
     <packaging>pom</packaging>
 

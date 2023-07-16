@@ -14,6 +14,7 @@
         <module>cache</module>
         <module>jmh</module>
         <module>dynamic-code</module>
+        <module>aspectj</module>
     </modules>
     <packaging>pom</packaging>
 

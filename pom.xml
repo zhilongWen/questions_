@@ -15,6 +15,7 @@
         <module>jmh</module>
         <module>dynamic-code</module>
         <module>aspectj</module>
+        <module>janino-complier</module>
     </modules>
     <packaging>pom</packaging>
 

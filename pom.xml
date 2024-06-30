@@ -16,6 +16,7 @@
         <module>dynamic-code</module>
         <module>aspectj</module>
         <module>janino-complier</module>
+        <module>scala-complier</module>
     </modules>
     <packaging>pom</packaging>
 

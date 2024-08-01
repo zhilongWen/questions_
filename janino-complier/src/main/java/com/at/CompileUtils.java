@@ -6,6 +6,7 @@ import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
 import org.codehaus.commons.compiler.CompileException;
 import org.codehaus.janino.ExpressionEvaluator;
+import org.codehaus.janino.ScriptEvaluator;
 import org.codehaus.janino.SimpleCompiler;
 
 import java.time.Duration;
@@ -34,6 +35,15 @@ public class CompileUtils {
                     .build();
 
     static final Cache<ExpressionKey, ExpressionEvaluator> COMPILED_EXPRESSION_CACHE =
+            CacheBuilder.newBuilder()
+                    // estimated maximum planning/startup time
+                    .expireAfterAccess(Duration.ofMinutes(5))
+                    // estimated cache size
+                    .maximumSize(100)
+                    .softValues()
+                    .build();
+
+    static final Cache<ExpressionKey, ScriptEvaluator> COMPILED_SCRIPTEVALUATOR_CACHE =
             CacheBuilder.newBuilder()
                     // estimated maximum planning/startup time
                     .expireAfterAccess(Duration.ofMinutes(5))
@@ -72,7 +82,7 @@ public class CompileUtils {
         }
     }
 
-    private static <T> Class<T> doCompile(ClassLoader cl, String name, String code) {
+    private static <T> Class<T> doCompile(ClassLoader cl, String name, String code) throws JaninoCompareException {
 
         if (cl == null) {
             throw new RuntimeException("Classloader must not be null.");
@@ -85,13 +95,13 @@ public class CompileUtils {
             compiler.cook(code);
         } catch (Throwable t) {
             System.out.println(addLineNumber(code));
-            throw new RuntimeException("Table program cannot be compiled. This is a bug. Please file an issue.", t);
+            throw new JaninoCompareException("Table program cannot be compiled. This is a bug. Please file an issue.", t);
         }
         try {
             //noinspection unchecked
             return (Class<T>) compiler.getClassLoader().loadClass(name);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Can not load class " + name, e);
+            throw new JaninoCompareException("Can not load class " + name, e);
         }
     }
 
@@ -121,7 +131,7 @@ public class CompileUtils {
             String code,
             List<String> argumentNames,
             List<Class<?>> argumentClasses,
-            Class<?> returnClass) {
+            Class<?> returnClass) throws JaninoCompareException {
         try {
             ExpressionKey key =
                     new ExpressionKey(code, argumentNames, argumentClasses, returnClass);
@@ -139,12 +149,58 @@ public class CompileUtils {
                             // Compile
                             expressionEvaluator.cook(code);
                         } catch (CompileException e) {
-                            throw new RuntimeException("Table program cannot be compiled. This is a bug. Please file an issue.\\nExpression:" + code, e);
+                            throw new JaninoCompareException("Table program cannot be compiled. This is a bug. Please file an issue.\\nExpression:" + code, e);
                         }
                         return expressionEvaluator;
                     });
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new JaninoCompareException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Compiles an expression code to a janino {@link ScriptEvaluator}.
+     *
+     * @param code            the expression code
+     * @param argumentNames   the expression argument names
+     * @param argumentClasses the expression argument classes
+     * @param returnClass     the return type of the expression
+     * @return the compiled class
+     */
+    public static ScriptEvaluator compileScriptEvaluator(
+            String code,
+            List<String> argumentNames,
+            List<Class<?>> argumentClasses,
+            Class<?> returnClass) throws JaninoCompareException {
+        try {
+            ExpressionKey key =
+                    new ExpressionKey(code, argumentNames, argumentClasses, returnClass);
+            return COMPILED_SCRIPTEVALUATOR_CACHE.get(
+                    key,
+                    () -> {
+                        ScriptEvaluator se = new ScriptEvaluator();
+                        // Input args
+                        se.setParameters(
+                                argumentNames.toArray(new String[0]),
+                                argumentClasses.toArray(new Class[0])
+                        );
+
+                        if (returnClass != EmptyClass.class) {
+                            // Result type
+                            se.setReturnType(returnClass);
+                        }
+
+
+                        try {
+                            // Compile
+                            se.cook(code);
+                        } catch (CompileException e) {
+                            throw new JaninoCompareException("Table program cannot be compiled. This is a bug. Please file an issue.\\nExpression:" + code, e);
+                        }
+                        return se;
+                    });
+        } catch (Exception e) {
+            throw new JaninoCompareException(e.getMessage(), e);
         }
     }
 

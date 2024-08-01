@@ -35,7 +35,7 @@ public class TY {
 
     static volatile String code = "json.get(\"name\")";
 
-    public static void main(String[] args) throws CompileException, InvocationTargetException, InterruptedException {
+    public static void main(String[] args) throws CompileException, InvocationTargetException, InterruptedException, JaninoCompareException {
 
         executorService.scheduleAtFixedRate(
                 () -> {

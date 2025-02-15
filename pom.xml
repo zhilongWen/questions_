@@ -17,6 +17,7 @@
         <module>aspectj</module>
         <module>janino-complier</module>
         <module>scala-complier</module>
+        <module>flatbuffer</module>
     </modules>
     <packaging>pom</packaging>
 

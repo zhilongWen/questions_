@@ -1,0 +1,22 @@
+// 定义命名空间
+namespace com.at.flatbuffer.model;
+
+// 性别枚举
+enum Gender: byte {
+  Male = 0,
+  Female = 1,
+  Other = 2
+}
+
+// 人物对象
+table Person {
+  name: string;
+  age: int;
+  gender: Gender;
+  address: string;
+  phone: int64;
+  skills: [string]; // 字符串数组
+}
+
+// 根类型
+root_type Person;

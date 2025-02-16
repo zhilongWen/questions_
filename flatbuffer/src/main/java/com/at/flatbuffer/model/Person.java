@@ -15,7 +15,10 @@ import java.nio.ByteOrder;
 public final class Person extends Table {
   public static void ValidateVersion() { Constants.FLATBUFFERS_23_5_26(); }
   public static Person getRootAsPerson(ByteBuffer _bb) { return getRootAsPerson(_bb, new Person()); }
-  public static Person getRootAsPerson(ByteBuffer _bb, Person obj) { _bb.order(ByteOrder.LITTLE_ENDIAN); return (obj.__assign(_bb.getInt(_bb.position()) + _bb.position(), _bb)); }
+  public static Person getRootAsPerson(ByteBuffer _bb, Person obj) {
+    _bb.order(ByteOrder.LITTLE_ENDIAN);
+    return (obj.__assign(_bb.getInt(_bb.position()) + _bb.position(), _bb));
+  }
   public void __init(int _i, ByteBuffer _bb) { __reset(_i, _bb); }
   public Person __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
@@ -32,6 +35,16 @@ public final class Person extends Table {
   public int skillsLength() { int o = __offset(14); return o != 0 ? __vector_len(o) : 0; }
   public StringVector skillsVector() { return skillsVector(new StringVector()); }
   public StringVector skillsVector(StringVector obj) { int o = __offset(14); return o != 0 ? obj.__assign(__vector(o), 4, bb) : null; }
+  public com.at.flatbuffer.model.Work works(int j) { return works(new com.at.flatbuffer.model.Work(), j); }
+  public com.at.flatbuffer.model.Work works(com.at.flatbuffer.model.Work obj, int j) { int o = __offset(16); return o != 0 ? obj.__assign(__indirect(__vector(o) + j * 4), bb) : null; }
+  public int worksLength() { int o = __offset(16); return o != 0 ? __vector_len(o) : 0; }
+  public com.at.flatbuffer.model.Work.Vector worksVector() { return worksVector(new com.at.flatbuffer.model.Work.Vector()); }
+  public com.at.flatbuffer.model.Work.Vector worksVector(com.at.flatbuffer.model.Work.Vector obj) { int o = __offset(16); return o != 0 ? obj.__assign(__vector(o), 4, bb) : null; }
+  public com.at.flatbuffer.model.KeyValue additionalInfo(int j) { return additionalInfo(new com.at.flatbuffer.model.KeyValue(), j); }
+  public com.at.flatbuffer.model.KeyValue additionalInfo(com.at.flatbuffer.model.KeyValue obj, int j) { int o = __offset(18); return o != 0 ? obj.__assign(__indirect(__vector(o) + j * 4), bb) : null; }
+  public int additionalInfoLength() { int o = __offset(18); return o != 0 ? __vector_len(o) : 0; }
+  public com.at.flatbuffer.model.KeyValue.Vector additionalInfoVector() { return additionalInfoVector(new com.at.flatbuffer.model.KeyValue.Vector()); }
+  public com.at.flatbuffer.model.KeyValue.Vector additionalInfoVector(com.at.flatbuffer.model.KeyValue.Vector obj) { int o = __offset(18); return o != 0 ? obj.__assign(__vector(o), 4, bb) : null; }
 
   public static int createPerson(FlatBufferBuilder builder,
       int nameOffset,
@@ -39,9 +52,13 @@ public final class Person extends Table {
       byte gender,
       int addressOffset,
       long phone,
-      int skillsOffset) {
-    builder.startTable(6);
+      int skillsOffset,
+      int worksOffset,
+      int additionalInfoOffset) {
+    builder.startTable(8);
     Person.addPhone(builder, phone);
+    Person.addAdditionalInfo(builder, additionalInfoOffset);
+    Person.addWorks(builder, worksOffset);
     Person.addSkills(builder, skillsOffset);
     Person.addAddress(builder, addressOffset);
     Person.addAge(builder, age);
@@ -50,7 +67,7 @@ public final class Person extends Table {
     return Person.endPerson(builder);
   }
 
-  public static void startPerson(FlatBufferBuilder builder) { builder.startTable(6); }
+  public static void startPerson(FlatBufferBuilder builder) { builder.startTable(8); }
   public static void addName(FlatBufferBuilder builder, int nameOffset) { builder.addOffset(0, nameOffset, 0); }
   public static void addAge(FlatBufferBuilder builder, int age) { builder.addInt(1, age, 0); }
   public static void addGender(FlatBufferBuilder builder, byte gender) { builder.addByte(2, gender, 0); }
@@ -59,6 +76,12 @@ public final class Person extends Table {
   public static void addSkills(FlatBufferBuilder builder, int skillsOffset) { builder.addOffset(5, skillsOffset, 0); }
   public static int createSkillsVector(FlatBufferBuilder builder, int[] data) { builder.startVector(4, data.length, 4); for (int i = data.length - 1; i >= 0; i--) builder.addOffset(data[i]); return builder.endVector(); }
   public static void startSkillsVector(FlatBufferBuilder builder, int numElems) { builder.startVector(4, numElems, 4); }
+  public static void addWorks(FlatBufferBuilder builder, int worksOffset) { builder.addOffset(6, worksOffset, 0); }
+  public static int createWorksVector(FlatBufferBuilder builder, int[] data) { builder.startVector(4, data.length, 4); for (int i = data.length - 1; i >= 0; i--) builder.addOffset(data[i]); return builder.endVector(); }
+  public static void startWorksVector(FlatBufferBuilder builder, int numElems) { builder.startVector(4, numElems, 4); }
+  public static void addAdditionalInfo(FlatBufferBuilder builder, int additionalInfoOffset) { builder.addOffset(7, additionalInfoOffset, 0); }
+  public static int createAdditionalInfoVector(FlatBufferBuilder builder, int[] data) { builder.startVector(4, data.length, 4); for (int i = data.length - 1; i >= 0; i--) builder.addOffset(data[i]); return builder.endVector(); }
+  public static void startAdditionalInfoVector(FlatBufferBuilder builder, int numElems) { builder.startVector(4, numElems, 4); }
   public static int endPerson(FlatBufferBuilder builder) {
     int o = builder.endTable();
     return o;

@@ -5,10 +5,20 @@ namespace com.at.flatbuffer.model;
 enum Gender: byte {
   Male = 0,
   Female = 1,
-  Other = 2
+  Other = 2,
 }
 
-// 人物对象
+// Work 结构
+table Work {
+  timestamp: int64;
+  company: string;
+  position: string;
+  description: string;
+  start_date: int64;
+  end_date: int64;
+}
+
+// Person 结构
 table Person {
   name: string;
   age: int;
@@ -16,6 +26,14 @@ table Person {
   address: string;
   phone: int64;
   skills: [string]; // 字符串数组
+  works: [Work];    // Work 数组
+  additional_info: [KeyValue]; // Map 转为 vector of KeyValue
+}
+
+// KeyValue 结构，模拟 Map
+table KeyValue {
+  key: string;
+  value: Work;  // map 的 value 是 Work 类型
 }
 
 // 根类型
